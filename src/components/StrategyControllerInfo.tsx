@@ -15,17 +15,17 @@ export default function StrategyControllerInfo() {
       const owner = await contract.owner();
       const mintedEvents = await contract.queryFilter(contract.filters.SharesMinted(owner));
       const depositedEvents = await contract.queryFilter(contract.filters.StakedPLSDeposited(owner));
-      let totalMinted = ethers.BigNumber.from(0);
-      let totalDeposited = ethers.BigNumber.from(0);
+      let totalMinted = BigInt(0);
+      let totalDeposited = BigInt(0);
       let latestMint = 0;
       let latestDeposit = 0;
 
       for (const event of mintedEvents) {
-        totalMinted = totalMinted.add(event.args.amount);
+        totalMinted += BigInt(event.args.amount.toString());
         latestMint = Math.max(latestMint, Number(event.args.timestamp));
       }
       for (const event of depositedEvents) {
-        totalDeposited = totalDeposited.add(event.args.amount);
+        totalDeposited += BigInt(event.args.amount.toString());
         latestDeposit = Math.max(latestDeposit, Number(event.args.timestamp));
       }
 
@@ -33,8 +33,8 @@ export default function StrategyControllerInfo() {
       const delayedMint = latestMint ? latestMint - 24 * 3600 : 0;
       const delayedDeposit = latestDeposit ? latestDeposit - 24 * 3600 : 0;
 
-      setMintedPlstr(ethers.formatEther(totalMinted));
-      setDepositedVpls(ethers.formatEther(totalDeposited));
+      setMintedPlstr(ethers.formatEther(totalMinted.toString()));
+      setDepositedVpls(ethers.formatEther(totalDeposited.toString()));
       setLastMint(delayedMint.toString());
       setLastDeposit(delayedDeposit.toString());
     } catch (error) {
@@ -54,7 +54,7 @@ export default function StrategyControllerInfo() {
     >
       <h2 className="text-xl font-bold mb-4">Strategy Controller Info</h2>
       <p>PLSTR Minted: {formatNumber(mintedPlstr)} PLSTR</p>
-      <p>vPLS Deposited: {formatNumber(depositedVpls)} vPLS</p>
+      <p>vPLS Deposited: {formatNumber(depositVpls)} vPLS</p>
       <p>Last Mint: {lastMint ? formatDate(Number(lastMint)) : 'N/A'}</p>
       <p>Last Deposit: {lastDeposit ? formatDate(Number(lastDeposit)) : 'N/A'}</p>
     </motion.div>
