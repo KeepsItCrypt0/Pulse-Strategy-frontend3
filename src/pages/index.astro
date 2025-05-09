@@ -1,0 +1,60 @@
+---
+import WalletConnectButton from '../components/WalletConnectButton';
+import UserWalletInfo from '../components/UserWalletInfo';
+import ContractInfo from '../components/ContractInfo';
+import IssueSharesForm from '../components/IssueSharesForm';
+import RedeemSharesForm from '../components/RedeemSharesForm';
+import AdminPanel from '../components/AdminPanel';
+import TransactionHistory from '../components/TransactionHistory';
+import StrategyControllerInfo from '../components/StrategyControllerInfo';
+import { GithubIcon, TwitterIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
+
+const [account, setAccount] = useState<string | null>(null);
+const [refresh, setRefresh] = useState(0);
+
+const handleTransaction = () => {
+  setRefresh(refresh + 1);
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>PulseStrategy</title>
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body class="bg-gray-900 text-white">
+    <header class="p-6 flex justify-between items-center">
+      <h1 class="text-3xl font-bold">PulseStrategy</h1>
+      <WalletConnectButton client:load onAccountChange={setAccount} />
+    </header>
+    <main class="p-6 max-w-6xl mx-auto space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <UserWalletInfo client:load account={account} key={refresh} />
+        <ContractInfo client:load />
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <IssueSharesForm client:load account={account} onTransaction={handleTransaction} />
+        <RedeemSharesForm client:load account={account} onTransaction={handleTransaction} />
+      </div>
+      <AdminPanel client:load account={account} />
+      <TransactionHistory client:load account={account} key={refresh} />
+      <StrategyControllerInfo client:load />
+    </main>
+    <footer class="p-6 text-center text-gray-400">
+      <p class="mb-4">
+        Disclaimer: Investing in DeFi involves risks, including loss of funds. Use at your own risk and conduct thorough research.
+      </p>
+      <div class="flex justify-center space-x-4">
+        <a href="https://github.com/KeepsItCrypt0/PulseStrategy" target="_blank" rel="noopener noreferrer">
+          <GithubIcon className="w-6 h-6" />
+        </a>
+        <a href="https://x.com/PulseStrategy" target="_blank" rel="noopener noreferrer">
+          <TwitterIcon className="w-6 h-6" />
+        </a>
+      </div>
+    </footer>
+  </body>
+</html>
