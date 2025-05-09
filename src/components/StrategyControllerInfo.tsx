@@ -54,7 +54,7 @@ export default function StrategyControllerInfo() {
     >
       <h2 className="text-xl font-bold mb-4">Strategy Controller Info</h2>
       <p>PLSTR Minted: {formatNumber(mintedPlstr)} PLSTR</p>
-      <p>vPLS Deposited: {formatNumber(depositVpls)} vPLS</p>
+      <p>vPLS Deposited: {formatNumber(depositedVpls)} vPLS</p>
       <p>Last Mint: {lastMint ? formatDate(Number(lastMint)) : 'N/A'}</p>
       <p>Last Deposit: {lastDeposit ? formatDate(Number(lastDeposit)) : 'N/A'}</p>
     </motion.div>
