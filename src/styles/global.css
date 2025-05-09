@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-900 text-white font-sans;
+}
+
+.glass {
+  @apply bg-gray-800 bg-opacity-50 backdrop-blur-lg border border-gray-700 rounded-lg;
+}
+
+.truncate-address {
+  @apply inline-block max-w-[100px] md:max-w-[150px] truncate;
+}
